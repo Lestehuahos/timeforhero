@@ -1,0 +1,120 @@
+//HSET (hwnd, state) - устанавливает новый рабочий элемент для оконного режима 
+//HSET(1835740, 1)
+
+//WNDPOS (hwnd, x, y) - помещает окно на экране в указанные координаты 
+//WNDPOS(262586, 730, 0)
+
+//WNDSIZE (hwnd, w, h) - задает размер окна 
+//WNDSIZE(131818, 1324, 759) 
+
+// Функция сравнения цвета пикселя (Проверяет равен ли выбранный пиксель тому цвету, что указан)
+SUB (compare_monster, $cm1, $sm1, $ccm, $lm_x, $lm_y)
+getscreen
+// поиск нужного пикселя
+$cm1_color = PXL($cm1,$sm1) //цвет, который ищем
+$sm1_color = $ccm // цвет, который должен быть
+LOGWRITE($cm1_color)
+IF($cm1_color = $sm1_color)
+LCLICK($lm_x,$lm_y)
+LOGWRITE("Соответствие: "$cm1_color "=" $sm1_color)
+WAIT(3)
+ELSE
+// Изгнать
+LCLICK(817,671)  // 9224412
+LOGWRITE("Несоответствие неулюжему йотуну" $cm1_color)
+END_IF // Конец блока "if"
+END_SUB
+
+
+// Функция проверки несоответствия пикселю
+SUB (compare_nopixel, $cn1, $sn1, $cnc, $ln_x, $ln_y)
+getscreen
+// поиск нужного пикселя
+$cn1_color = PXL($cn1,$sn1) //цвет, который ищем
+$sn1_color = $cnc // цвет, который должен быть
+LOGWRITE("Монстры найдены:"$cn1_color)
+IF($cn1_color ! $sn1_color)
+LOGWRITE("Соответствие: "$cn1_color, $sn1_color)
+LCLICK($ln_x,$ln_y)
+ELSE
+LOGWRITE("Монстров нет")
+END_IF
+END_SUB
+
+
+
+// Функция проверки соответствия пикселю
+SUB (compare_pixel, $c1, $s1, $cc, $l_x, $l_y)
+getscreen
+// поиск нужного пикселя
+$c1_color = PXL($c1,$s1) //цвет, который ищем
+$s1_color = $cc // цвет, который должен быть
+LOGWRITE($c1_color)
+IF($c1_color = $s1_color)
+LOGWRITE("Соответствие: "$c1_color "=" $s1_color)
+LCLICK($l_x,$l_y)
+ELSE
+LOGWRITE("Указанного пикселя нет")
+END_IF
+END_SUB
+
+
+
+
+// Сам бой
+$a = 1
+FOR($a, $a < 50)
+// Тело цикла
+$c5_color = PXL(567,224) //цвет, который ищем
+$s5_color = 8038065 // цвет, который должен быть
+LOGWRITE("В бою:" $c5_color)
+$var = ($c5_color = $s5_color)
+LOGWRITE("Значение:" $var)
+IF($var = 0)
+GOTO(skip)
+END_IF // Конец блока "if"
+LOGWRITE($a)
+
+getscreen
+// поиск нужного пикселя
+$c1_color = PXL(515,373) //цвет, который ищем
+$s1_color = 1118648 // цвет, который должен быть
+LOGWRITE("Цвет кнопки Крутить ещё раз:" $c1_color)
+WAIT(2)
+IF($c1_color = $s1_color) //Начало блока IF
+//Умение: Истребление
+getscreen
+IF_PICTURE_IN (454,231,894,398, "images/destruction.bmp")
+LOGWRITE("Истребление найдено")
+LCLICK($_return1, $_return2)  
+ELSE
+LOGWRITE("Истребление недоступно")
+LCLICK(511,301)  // 10205384
+LCLICK(641,289)  // 14935270
+LCLICK(772,291)  // 15858429
+END_IF// Конец проверки истребления
+END_IF // Конец блока "if"
+END_CYC
+
+
+
+//Если щит полон - не нажимать обновление щита
+LCLICK(372,117)  // 16763
+
+
+//Если магия полна - не нажимать обновление маны
+LCLICK(370,130)  // 9714445
+
+
+skip:
+// Кнопка забрать
+getscreen
+// поиск нужного пикселя
+$c2_color = PXL(611, 571) //цвет, который ищем
+$s2_color = 6967061 // цвет, который должен быть
+LOGWRITE(Забрать: $c2_color)
+IF($c2_color = $s2_color)
+LCLICK(611, 571)
+ELSE
+LOGWRITE("Нет кнопки забрать")
+END_IF // Конец блока "if"
