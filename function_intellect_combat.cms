@@ -99,11 +99,52 @@ END_CYC
 
 
 //≈сли щит полон - не нажимать обновление щита
-LCLICK(372,117)  // 16763
+$c14 = 372
+$s14 = 117  
+$cc4 = 16763
+
+// поиск нужного пиксел€
+$c14_color = PXL($c14,$s14) //цвет, который ищем
+$s14_color = $cc4 // цвет, который должен быть
+LOGWRITE($c14_color)
+IF($c14_color = $s14_color)
+
+//√раницы первого слота барабана
+IF_PICTURE_IN (482,249,571,336, "images/shield.bmp")
+LOGWRITE($_return1, $_return2)
+$slot1 = 0
+ELSE
+$slot1 = 1
+LCLICK($_return1, $_return2)
+END_IF
+
+
+//√раницы второго слота барабана
+IF_PICTURE_IN (602,251,699,334, "images/shield.bmp")
+LOGWRITE($_return1, $_return2)
+$slot2 = 0
+ELSE
+$slot2 = 1
+LCLICK($_return1, $_return2)
+END_IF
+
+
+
+//√раницы третьего слота барабана
+IF_PICTURE_IN (732,249,822,333, "images/shield.bmp")
+LOGWRITE($_return1, $_return2)
+$slot3 = 0
+ELSE
+$slot3 = 1
+LCLICK($_return1, $_return2)
+END_IF
+
+END_IF 
+// онец проверки нужного пиксел€ щита
 
 
 //≈сли маги€ полна - не нажимать обновление маны
-LCLICK(370,130)  // 9714445
+//LCLICK(370,130)  // 9714445
 
 
 skip:
