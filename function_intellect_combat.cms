@@ -81,23 +81,13 @@ $c1_color = PXL(515,373) //цвет, который ищем
 $s1_color = 1118648 // цвет, который должен быть
 LOGWRITE("Цвет кнопки Крутить ещё раз:" $c1_color)
 WAIT(2)
-IF($c1_color = $s1_color) //Начало блока IF
+IF($c1_color = $s1_color) //Начало блока проверки активности выбора
 //Умение: Истребление
-getscreen
 IF_PICTURE_IN (454,231,894,398, "images/destruction.bmp")
 LOGWRITE("Истребление найдено")
 LCLICK($_return1, $_return2)  
 ELSE
 LOGWRITE("Истребление недоступно")
-LCLICK(511,301)  // 10205384
-LCLICK(641,289)  // 14935270
-LCLICK(772,291)  // 15858429
-END_IF// Конец проверки истребления
-END_IF // Конец блока "if"
-END_CYC
-
-
-
 //Если щит полон - не нажимать обновление щита
 $c14 = 372
 $s14 = 117  
@@ -108,14 +98,17 @@ $c14_color = PXL($c14,$s14) //цвет, который ищем
 $s14_color = $cc4 // цвет, который должен быть
 LOGWRITE($c14_color)
 IF($c14_color = $s14_color)
+LOGWRITE("Щит полон")
 
 //Границы первого слота барабана
 IF_PICTURE_IN (482,249,571,336, "images/shield.bmp")
 LOGWRITE($_return1, $_return2)
 $slot1 = 0
 ELSE
+LOGWRITE("В первом слоте не щит")
 $slot1 = 1
-LCLICK($_return1, $_return2)
+//Нажатие на слот1
+LCLICK(514,298)  // 7241610
 END_IF
 
 
@@ -124,8 +117,10 @@ IF_PICTURE_IN (602,251,699,334, "images/shield.bmp")
 LOGWRITE($_return1, $_return2)
 $slot2 = 0
 ELSE
+LOGWRITE("Во втором слоте не щит")
 $slot2 = 1
-LCLICK($_return1, $_return2)
+//Нажатие на слот2
+LCLICK(642,292)  // 5657942
 END_IF
 
 
@@ -135,12 +130,36 @@ IF_PICTURE_IN (732,249,822,333, "images/shield.bmp")
 LOGWRITE($_return1, $_return2)
 $slot3 = 0
 ELSE
+LOGWRITE("В третьем слоте не щит")  
 $slot3 = 1
-LCLICK($_return1, $_return2)
+//Нажатие на слот3
+LCLICK(767,293)  // 8882055
 END_IF
 
+
+//Если щит не полон
+ELSE
+LOGWRITE("Щит не полный, так как получил урон")
+//Нажатие на слот1 
+LCLICK(514,298)  // 7241610
+//Нажатие на слот2
+LCLICK(642,292)  // 5657942
+//Нажатие на слот3
+LCLICK(767,293)  // 8882055
+
+END_IF
+//Конец проверки нужного пикселя полноты щита
+
 END_IF 
-//Конец проверки нужного пикселя щита
+// Конец проверки истребления
+
+
+END_IF // Конец блока проверки активности выбора
+END_CYC
+
+
+
+
 
 
 //Если магия полна - не нажимать обновление маны
