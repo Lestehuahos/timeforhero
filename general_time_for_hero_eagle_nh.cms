@@ -76,7 +76,7 @@ END_IF
 
 //Если монстр слишком сильный
 getscreen
-IF_PICTURE_IN (644, 545, 712, 573, "yes_iwill.bmp")
+IF_PICTURE_IN (644, 545, 712, 573, "images/yes_iwill.bmp")
 	LOGWRITE("Мне нипочем любые противники")
 	LCLICK($_return1, $_return2)   
 END_IF
@@ -102,20 +102,138 @@ $c1_color = PXL(515,373) //цвет, который ищем
 $s1_color = 1118648 // цвет, который должен быть
 LOGWRITE("Цвет кнопки Крутить ещё раз:" $c1_color)
 WAIT(2)
-IF($c1_color = $s1_color) //Начало блока IF
+IF($c1_color = $s1_color) //Начало блока проверки активности выбора
 //Умение: Истребление
-getscreen
-IF_PICTURE_IN (454,231,894,398, "destruction.bmp")
+IF_PICTURE_IN (454,231,894,398, "images/destruction.bmp")
 LOGWRITE("Истребление найдено")
 LCLICK($_return1, $_return2)  
 ELSE
 LOGWRITE("Истребление недоступно")
-LCLICK(511,301)  // 10205384
-LCLICK(641,289)  // 14935270
-LCLICK(772,291)  // 15858429
-END_IF// Конец проверки истребления
-END_IF // Конец блока "if"
+//Если щит полон - не нажимать обновление щита
+$c14 = 372
+$s14 = 117  
+$cc4 = 16763
+
+// поиск нужного пикселя
+$c14_color = PXL($c14,$s14) //цвет, который ищем
+$s14_color = $cc4 // цвет, который должен быть
+LOGWRITE($c14_color)
+IF($c14_color = $s14_color)
+LOGWRITE("Щит полон")
+
+//Границы первого слота барабана
+IF_PICTURE_IN (482,249,571,336, "images/shield.bmp")
+LOGWRITE($_return1, $_return2)
+$slot1 = 0
+ELSE
+LOGWRITE("В первом слоте не щит")
+$slot1 = 1
+//Нажатие на слот1
+LCLICK(514,298)  // 7241610
+END_IF
+
+
+//Границы второго слота барабана
+IF_PICTURE_IN (602,251,699,334, "images/shield.bmp")
+LOGWRITE($_return1, $_return2)
+$slot2 = 0
+ELSE
+LOGWRITE("Во втором слоте не щит")
+$slot2 = 1
+//Нажатие на слот2
+LCLICK(642,292)  // 5657942
+END_IF
+
+
+
+//Границы третьего слота барабана
+IF_PICTURE_IN (732,249,822,333, "images/shield.bmp")
+LOGWRITE($_return1, $_return2)
+$slot3 = 0
+ELSE
+LOGWRITE("В третьем слоте не щит")  
+$slot3 = 1
+//Нажатие на слот3
+LCLICK(767,293)  // 8882055
+END_IF
+
+
+//Если щит не полон
+ELSE
+LOGWRITE("Щит не полный, так как получил урон")
+//Если магия полна - не нажимать обновление маны
+//LCLICK(370,130)  // 9714445
+$c15 = 370
+$s15 = 130  
+$cc5 = 9714445
+
+// поиск нужного пикселя
+$c15_color = PXL($c15,$s15) //цвет, который ищем
+$s15_color = $cc5 // цвет, который должен быть
+LOGWRITE($c15_color)
+IF($c15_color = $s15_color)
+LOGWRITE("Шкала маны полна")
+
+//Границы первого слота барабана
+IF_PICTURE_IN (482,249,571,336, "images/mana.bmp")
+LOGWRITE($_return1, $_return2)
+$slot1 = 0
+ELSE
+LOGWRITE("В первом слоте не восполнение маны")
+$slot1 = 1
+//Нажатие на слот1
+LCLICK(514,298)  // 7241610
+END_IF
+
+
+//Границы второго слота барабана
+IF_PICTURE_IN (602,251,699,334, "images/mana.bmp")
+LOGWRITE($_return1, $_return2)
+$slot2 = 0
+ELSE
+LOGWRITE("Во втором слоте не восполнение маны")
+$slot2 = 1
+//Нажатие на слот2
+LCLICK(642,292)  // 5657942
+END_IF
+
+
+
+//Границы третьего слота барабана
+IF_PICTURE_IN (732,249,822,333, "images/mana.bmp")
+LOGWRITE($_return1, $_return2)
+$slot3 = 0
+ELSE
+LOGWRITE("В третьем слоте не восполнение маны")  
+$slot3 = 1
+//Нажатие на слот3
+LCLICK(767,293)  // 8882055
+END_IF
+
+
+//Если шкала магии не полна
+ELSE
+LOGWRITE("Использовались заклинания, мана не полна")
+//Нажатие на слот1 
+LCLICK(514,298)  // 7241610
+//Нажатие на слот2
+LCLICK(642,292)  // 5657942
+//Нажатие на слот3
+LCLICK(767,293)  // 8882055
+
+END_IF
+//Проверка полноты маны
+
+END_IF
+//Конец проверки нужного пикселя полноты щита
+
+END_IF 
+// Конец проверки истребления
+
+
+END_IF // Конец блока проверки активности выбора
 END_CYC
+
 
 
 skip:
@@ -164,7 +282,7 @@ END_IF // Конец блока "if"
 
 //Сообщение "Ты будешь изгнан из мира Ожерелья через n секунд...
 getscreen
-IF_PICTURE_IN (454, 478, 863, 512, "titans_net.bmp")
+IF_PICTURE_IN (454, 478, 863, 512, "images/titans_net.bmp")
 	LOGWRITE("Хотят изгнать из миров Ожерелья")
 	//Выбираем вариант: Нет, я хочу остаться
 	LCLICK($_return1, $_return2)  //возврат координат
@@ -173,7 +291,7 @@ END_IF
 
 //Если изгнали из миров Ожерелья: Титаны недовольны и бла бла бла...
 getscreen
-IF_PICTURE_IN (781, 518, 1031, 568, "reload.bmp")
+IF_PICTURE_IN (781, 518, 1031, 568, "images/reload.bmp")
 	LOGWRITE("Изгнали из миров Ожерелья")
 //Перезагрузка: кнопка в самом браузере 
 // поиск нужного пикселя 
@@ -210,49 +328,49 @@ $mob=0
 
 // Окно с монстром (любым монстром)
 getscreen
-IF_PICTURE_IN (250, 173, 1046, 605, "vboyu.bmp")
+IF_PICTURE_IN (250, 173, 1046, 605, "images/vboyu.bmp")
 	LOGWRITE("Все верно, вы можете напасть на монстра")
 	$mob=1
 END_IF
 
 // 1 Неуклюжий Йотун
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "nyotyn.bmp")
+IF_PICTURE_IN (277, 325, 502, 458, "images/nyotyn.bmp")
 	LOGWRITE("Все верно, это Неуклюжий Йотун")
 	$a=1  
 END_IF
 
 // 2 Саблезубая рысь
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "sabllynx.bmp")
+IF_PICTURE_IN (277, 325, 502, 458, "images/sabllynx.bmp")
 	LOGWRITE("Все верно, это Саблезубая рысь")
-	$a=0
+	$a=1
 END_IF
 
 // 3 Грубый Йотун
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "rudeyotyn.bmp")
+IF_PICTURE_IN (277, 325, 502, 458, "images/rudeyotyn.bmp")
 	LOGWRITE("Все верно, это Грубый Йотун")
 	$a=0
 END_IF
 
 // 4 Рысь-альбинос
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "albinoslynx.bmp")
+IF_PICTURE_IN (277, 325, 502, 458, "images/albinoslynx.bmp")
 	$a=0 
 END_IF
 
 // 5 Злобный Йотун
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "evilyotyn.bmp")
+IF_PICTURE_IN (277, 325, 502, 458, "images/evilyotyn.bmp")
 	LOGWRITE("Все верно, это Злобный Йотун")
 	LOGWRITE("собственной персоной")
-	$a=0
+	$a=1
 END_IF
 
 // 6 Лютая рысь
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "lytlynx.bmp")
+IF_PICTURE_IN (277, 325, 502, 458, "images/lytlynx.bmp")
 	LOGWRITE("Все верно, это Лютая рысь")
 	$a=0
 END_IF
@@ -260,7 +378,7 @@ END_IF
 
 // 7 Беспощадный Йотун
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "besposhadyoutyn.bmp")
+IF_PICTURE_IN (277, 325, 502, 458, "images/besposhadyoutyn.bmp")
 	LOGWRITE("Все верно, это Беспощадный Йотун")
 	$a=0
 END_IF
@@ -268,7 +386,7 @@ END_IF
 
 //8 Корнетыква
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "tikva.bmp")
+IF_PICTURE_IN (277, 325, 502, 458, "images/tikva.bmp")
 	LOGWRITE("Все верно, это Корнетыква")
 	$a=0
 END_IF
@@ -310,49 +428,49 @@ WAIT(3)
 
 // Окно с монстром (любым монстром)
 getscreen
-IF_PICTURE_IN (250, 173, 1046, 605, "vboyu.bmp")
+IF_PICTURE_IN (250, 173, 1046, 605, "images/vboyu.bmp")
 	LOGWRITE("Все верно, вы можете напасть на монстра")
 	$mob=1
 END_IF
 
 // 1 Неуклюжий Йотун
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "nyotyn.bmp")
+IF_PICTURE_IN (277, 325, 502, 458, "images/nyotyn.bmp")
 	LOGWRITE("Все верно, это Неуклюжий Йотун")
 	$a=1  
 END_IF
 
 // 2 Саблезубая рысь
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "sabllynx.bmp")
+IF_PICTURE_IN (277, 325, 502, 458, "images/sabllynx.bmp")
 	LOGWRITE("Все верно, это Саблезубая рысь")
-	$a=0
+	$a=1
 END_IF
 
 // 3 Грубый Йотун
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "rudeyotyn.bmp")
+IF_PICTURE_IN (277, 325, 502, 458, "images/rudeyotyn.bmp")
 	LOGWRITE("Все верно, это Грубый Йотун")
 	$a=0
 END_IF
 
 // 4 Рысь-альбинос
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "albinoslynx.bmp")
+IF_PICTURE_IN (277, 325, 502, 458, "images/albinoslynx.bmp")
 	$a=0 
 END_IF
 
 // 5 Злобный Йотун
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "evilyotyn.bmp")
+IF_PICTURE_IN (277, 325, 502, 458, "images/evilyotyn.bmp")
 	LOGWRITE("Все верно, это Злобный Йотун")
 	LOGWRITE("собственной персоной")
-	$a=0
+	$a=1
 END_IF
 
 // 6 Лютая рысь
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "lytlynx.bmp")
+IF_PICTURE_IN (277, 325, 502, 458, "images/lytlynx.bmp")
 	LOGWRITE("Все верно, это Лютая рысь")
 	$a=0
 END_IF
@@ -360,7 +478,7 @@ END_IF
 
 // 7 Беспощадный Йотун
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "besposhadyoutyn.bmp")
+IF_PICTURE_IN (277, 325, 502, 458, "images/besposhadyoutyn.bmp")
 	LOGWRITE("Все верно, это Беспощадный Йотун")
 	$a=0
 END_IF
@@ -368,7 +486,7 @@ END_IF
 
 //8 Корнетыква
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "tikva.bmp")
+IF_PICTURE_IN (277, 325, 502, 458, "images/tikva.bmp")
 	LOGWRITE("Все верно, это Корнетыква")
 	$a=0
 END_IF
@@ -450,38 +568,38 @@ WAIT(3)
 
 // Окно с монстром (любым монстром)
 getscreen
-IF_PICTURE_IN (1084,577, 1134,670, "vboyu.bmp")
+IF_PICTURE_IN (1084,577, 1134,670, "images/vboyu.bmp")
 	LOGWRITE("Все верно, вы можете напасть на монстра")
 	$mob=1
 END_IF
 
 // 1 Полос
 getscreen
-IF_PICTURE_IN (373, 492, 567, 619, "poloz.bmp")
+IF_PICTURE_IN (373, 492, 567, 619, "images/poloz.bmp")
 	LOGWRITE("Все верно, это Полос 8-го уровня")
 	$a=1  
 END_IF
 
 // 2 Поющий паук
-IF_PICTURE_IN (373, 492, 567, 619, "spidersinger.bmp")
+IF_PICTURE_IN (373, 492, 567, 619, "images/spidersinger.bmp")
 	LOGWRITE("Все верно, это Поющий паук")
 	$a=1
 END_IF
 
 // 3 Скиталец
-IF_PICTURE_IN (373, 492, 567, 619, "skellet.bmp")
+IF_PICTURE_IN (373, 492, 567, 619, "images/skellet.bmp")
 	LOGWRITE("Все верно, это Скиталец")
 	$a=1
 END_IF
 
 // 4 Центурион
-IF_PICTURE_IN (373, 492, 567, 619, "centurion.bmp")
+IF_PICTURE_IN (373, 492, 567, 619, "images/centurion.bmp")
 	LOGWRITE("Все верно, это Центурион")
 	$a=1
 END_IF
 
 // 5 Ловец кошмаров
-IF_PICTURE_IN (373, 492, 567, 619, "catcher.bmp")
+IF_PICTURE_IN (373, 492, 567, 619, "images/catcher.bmp")
 	LOGWRITE("Все верно, это Ловец кошмаров")
 	$a=0
 END_IF
@@ -532,7 +650,7 @@ WAIT(3)
 
 // Окно с монстром (любым монстром)
 getscreen
-IF_PICTURE_IN (1084,577, 1134,670, "vboyu.bmp")
+IF_PICTURE_IN (1084,577, 1134,670, "images/vboyu.bmp")
 	LOGWRITE("Все верно, вы можете напасть на монстра")
 	$mob=1
 END_IF
@@ -540,31 +658,31 @@ END_IF
 
 // 1 Полос
 getscreen
-IF_PICTURE_IN (373, 492, 567, 619, "poloz.bmp")
+IF_PICTURE_IN (373, 492, 567, 619, "images/poloz.bmp")
 	LOGWRITE("Все верно, это Полос 8-го уровня")
 	$a=1  
 END_IF
 
 // 2 Поющий паук
-IF_PICTURE_IN (373, 492, 567, 619, "spidersinger.bmp")
+IF_PICTURE_IN (373, 492, 567, 619, "images/spidersinger.bmp")
 	LOGWRITE("Все верно, это Поющий паук")
 	$a=1
 END_IF
 
 // 3 Скиталец
-IF_PICTURE_IN (373, 492, 567, 619, "skellet.bmp")
+IF_PICTURE_IN (373, 492, 567, 619, "images/skellet.bmp")
 	LOGWRITE("Все верно, это Скиталец")
 	$a=1
 END_IF
 
 // 4 Центурион
-IF_PICTURE_IN (373, 492, 567, 619, "centurion.bmp")
+IF_PICTURE_IN (373, 492, 567, 619, "images/centurion.bmp")
 	LOGWRITE("Все верно, это Центурион")
 	$a=1
 END_IF
 
 // 5 Ловец кошмаров
-IF_PICTURE_IN (373, 492, 567, 619, "catcher.bmp")
+IF_PICTURE_IN (373, 492, 567, 619, "images/catcher.bmp")
 	LOGWRITE("Все верно, это Ловец кошмаров")
 	$a=0
 END_IF
