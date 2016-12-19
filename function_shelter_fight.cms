@@ -1,0 +1,36 @@
+// Выбор сложности
+getscreen
+IF_PICTURE_IN (516,173,1034,290, "images/easy_mode.bmp")
+LCLICK($_return1,$_return2)
+//ELSE
+//LOGWRITE("Несоответствие")
+END_IF // Конец блока "if"
+
+
+
+// Выбор боя в логове
+getscreen
+IF_PICTURE_IN (482,266,622,418, "images/shelterlvl1.bmp")
+LOGWRITE("Битва в логове, 1 уровень")
+//LCLICK($_return1,$_return2)
+LCLICK(532,352)  // 10523777
+END_IF // Конец блока выбора уровня боя в убежище
+
+//Кнопка "В бой"
+		IF_PICTURE_IN (913,475,1065,542, "images/in_fight.bmp")
+		LCLICK($_return1,$_return2)
+		WAIT(2)
+		END_IF
+
+
+
+// Выбор логова - Заброшенная штольня
+// поиск нужного пикселя
+getscreen
+IF_PICTURE_IN (709,399,1074,598, "images/werewolfshelter.bmp")
+LOGWRITE("Штольня")
+//Вход в логово
+LCLICK($_return1,$_return2) 
+//ELSE
+//LOGWRITE("Несоответствие")
+END_IF // Конец блока "if"
