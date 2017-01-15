@@ -5,7 +5,8 @@
 //WNDPOS(262586, 730, 0)
 
 //WNDSIZE (hwnd, w, h) - задает размер окна 
-//WNDSIZE(131818, 1324, 759) 
+WNDSIZE(2294206, 1324, 844) 
+//WNDSIZE(131818, 1024, 742) 
 
 // Функция сравнения цвета пикселя (Проверяет равен ли выбранный пиксель тому цвету, что указан)
 SUB (compare_monster, $cm1, $sm1, $ccm, $lm_x, $lm_y)
@@ -34,7 +35,6 @@ $cn1_color = PXL($cn1,$sn1) //цвет, который ищем
 $sn1_color = $cnc // цвет, который должен быть
 LOGWRITE("Монстры найдены:"$cn1_color)
 IF($cn1_color ! $sn1_color)
-LOGWRITE("Соответствие: "$cn1_color, $sn1_color)
 LCLICK($ln_x,$ln_y)
 ELSE
 LOGWRITE("Монстров нет")
@@ -65,10 +65,11 @@ getscreen
 //поиск нужного пикселя
 $c16_color = PXL(793,682) //цвет, который ищем
 $s16_color = 4408137 // цвет, который должен быть
-LOGWRITE("Неактивная кнопка изгнать:" $c16_color)
+//LOGWRITE("Неактивная кнопка изгнать:" $c16_color)
 IF($c16_color = $s16_color) // Блок IF2
-WAIT(2)
+WAITMS(20)
 //Крестик - закрываем окно с монстром
+LOGWRITE("Закрываем окно с монстром, если он слишком сильный")
 LCLICK(1104,308)  // 197460
 END_IF
 
@@ -84,8 +85,8 @@ END_IF
 $a = 1
 FOR($a, $a < 50)
 // Тело цикла
-$c5_color = PXL(567,224) //цвет, который ищем
-$s5_color = 8038065 // цвет, который должен быть
+$c5_color = PXL(415,265) //цвет, который ищем
+$s5_color = 10936299 // цвет, который должен быть
 LOGWRITE("В бою:" $c5_color)
 $var = ($c5_color = $s5_color)
 LOGWRITE("Значение:" $var)
@@ -96,17 +97,17 @@ LOGWRITE($a)
 
 getscreen
 // поиск нужного пикселя
-$c1_color = PXL(515,373) //цвет, который ищем
-$s1_color = 1118648 // цвет, который должен быть
+$c1_color = PXL(380,411) //цвет, который ищем
+$s1_color = 1579198// цвет, который должен быть
 LOGWRITE("Цвет кнопки Крутить ещё раз:" $c1_color)
 WAIT(2)
 IF($c1_color = $s1_color) //Начало блока проверки активности выбора
 //Умение: Истребление
-IF_PICTURE_IN (454,231,894,398, "images/destruction.bmp")
+IF_PICTURE_IN (319, 285, 708, 404, "images/destruction.bmp")
 LOGWRITE("Истребление найдено")
 LCLICK($_return1, $_return2)  
 ELSE
-LOGWRITE("Истребление недоступно")
+LOGWRITE("Истребление не найдено")
 //Если щит полон - не нажимать обновление щита
 $c14 = 372
 $s14 = 117  
@@ -213,11 +214,12 @@ END_IF
 ELSE
 LOGWRITE("Использовались заклинания, мана не полна")
 //Нажатие на слот1 
-LCLICK(514,298)  // 7241610
+LCLICK(365,328)  // 8831735
 //Нажатие на слот2
-LCLICK(642,292)  // 5657942
+LCLICK(504,334)  // 540766
 //Нажатие на слот3
-LCLICK(767,293)  // 8882055
+LCLICK(620,335)  // 7438990
+
 
 END_IF
 //Проверка полноты маны
@@ -237,24 +239,21 @@ END_CYC
 skip:
 // Кнопка забрать
 getscreen
-IF_PICTURE_IN (515,552, 804, 601, "images/pick.bmp")
+IF_PICTURE_IN (446, 597, 569, 629, "images/pick.bmp")
 LOGWRITE("Забираем награду")
 LCLICK($_return1, $_return2)
 ELSE
-LOGWRITE("Нет кнопки забрать")
+//LOGWRITE("Нет кнопки забрать")
 END_IF // Конец блока "if"
 
 
 // Системное сообщение "Умение побеждать"
 getscreen
-// поиск нужного пикселя
-$c9_color = PXL(731,583) //цвет, который ищем
-$s9_color = 873237 // цвет, который должен быть
-LOGWRITE("Умение побеждать:"$c9_color)
-IF($c9_color = $s9_color)
-LCLICK(731,583)
+IF_PICTURE_IN (454, 491, 643, 525, "images/umenie_pobed.bmp")
+LOGWRITE("Умение побеждать")
+LCLICK($_return1, $_return2)
 ELSE
-LOGWRITE("Несоответствие")
+//LOGWRITE("Несоответствие")
 END_IF // Конец блока "if"
 
 // Красный крестик, чтобы выйти из меню умений
@@ -266,12 +265,13 @@ $s10_color = 66081 // цвет, который должен быть
 //Цвет мечей в умениях
 $c11_color = PXL(796,311) //цвет, который ищем
 $s11_color = 16185077 // цвет, который должен быть
-LOGWRITE("Цвет крестика:"$c10_color)
-LOGWRITE("Цвет мечей в умениях: "$c11_color)
+//LOGWRITE("Цвет крестика:"$c10_color)
+//LOGWRITE("Цвет мечей в умениях: "$c11_color)
 IF($c11_color = $s11_color)
+LOGWRITE("Умение готово")
 LCLICK(1104,303)
 ELSE
-LOGWRITE("Выход из умений. Несоответствие")
+//LOGWRITE("Выход из умений. Несоответствие")
 END_IF // Конец блока "if"
 
 
@@ -308,86 +308,45 @@ KEYUP(#PAGEUP)
 
 
 //Переход по локациям
-//-----------Мир Орлов - Ремесленный квартал-------
-$c16_color = PXL(591,168) //цвет, который ищем
-$s16_color = 8234164 // цвет, который должен быть
-IF($c16_color = $s16_color)
-LOGWRITE("Мир Орлов: Ремесленный квартал")
+//-----------Мир Львов- Цитадель-------
+//Проверка Цитадели
+getscreen
+IF_PICTURE_IN (602, 197, 691, 214, "images/lion_citadel.bmp")
+LOGWRITE("Мир Львов: Цитадель")
 
+//Проверка нахождения в Цитадели
+IF_PICTURE_IN (383, 337, 486, 394, "images/citadel_active.bmp")
+LOGWRITE("Нахожусь в Мир Львов: Цитадель")
 //Выбор монстра для атаки
-compare_nopixel(1039, 278, 5657674, 1039, 278)
+compare_nopixel(865, 301, 3551783, 865, 301)
+END_IF
 
 //Проверка соответствия монстру
 
-$a=0
-$mob=0
+$a=1
+$mob=1
 
 
 // Окно с монстром (любым монстром)
 getscreen
-IF_PICTURE_IN (250, 173, 1046, 605, "images/vboyu.bmp")
+IF_PICTURE_IN (94, 214, 896, 652, "images/vboyu.bmp")
 	LOGWRITE("Все верно, вы можете напасть на монстра")
 	$mob=1
-END_IF
+END_IF 
 
-// 1 Неуклюжий Йотун
+// 1 Паук-косеножка
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "images/nyotyn.bmp")
-	LOGWRITE("Все верно, это Неуклюжий Йотун")
+IF_PICTURE_IN (122, 255, 357, 588, "images/paukkosenozka.bmp")
+	LOGWRITE("Все верно, это Паук-Косеножка")
 	$a=1  
 END_IF
 
-// 2 Саблезубая рысь
+// 2 Степная гиена
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "images/sabllynx.bmp")
-	LOGWRITE("Все верно, это Саблезубая рысь")
-	$a=1
+IF_PICTURE_IN (122, 255, 357, 588, "images/stephiena.bmp")
+	LOGWRITE("Все верно, это Степная гиена")
+	$a=1  
 END_IF
-
-// 3 Грубый Йотун
-getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "images/rudeyotyn.bmp")
-	LOGWRITE("Все верно, это Грубый Йотун")
-	$a=1
-END_IF
-
-// 4 Рысь-альбинос
-getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "images/albinoslynx.bmp")
-	$a=0 
-END_IF
-
-// 5 Злобный Йотун
-getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "images/evilyotyn.bmp")
-	LOGWRITE("Все верно, это Злобный Йотун")
-	LOGWRITE("собственной персоной")
-	$a=1
-END_IF
-
-// 6 Лютая рысь
-getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "images/lytlynx.bmp")
-	LOGWRITE("Все верно, это Лютая рысь")
-	$a=0
-END_IF
-
-
-// 7 Беспощадный Йотун
-getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "images/besposhadyoutyn.bmp")
-	LOGWRITE("Все верно, это Беспощадный Йотун")
-	$a=0
-END_IF
-
-
-//8 Корнетыква
-getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "images/tikva.bmp")
-	LOGWRITE("Все верно, это Корнетыква")
-	$a=0
-END_IF
-
 
 
 //Проверка открыто ли окно нападения на монстра
@@ -395,129 +354,115 @@ IF($mob=1)
 // Switch конструкция для изгнания и атаки монстров
 WAIT(3)  //таймаут
 IF($a = 1)
-LOGWRITE("Число нападения: "$a)
-//Напасть 
-	LCLICK(562,573)  // 2368767
-ELSE
-LOGWRITE("Число нападения: "$a)
-//Изгнать 
-	LCLICK(712,576)  // 11987430
+	LOGWRITE("Число нападения: "$a)
+	//Напасть 
+IF_PICTURE_IN (403, 601, 478, 627, "images/attack_on_mob.bmp")
+  LOGWRITE("Напасть")
+  WAIT(2)
+ 	LCLICK($_return1, $_return2) 
+END_IF
+	ELSE
+	LOGWRITE("Число нападения: "$a)
+	//Изгнать 
+IF_PICTURE_IN (515, 600, 586, 633, "images/izgn.bmp")
+	LOGWRITE("Изгнать")
+	WAIT(2)
+	LCLICK($_return1, $_return2)
+END_IF
+
 END_IF //Конец Switch конструкции для атаки и изгнания монстров
 END_IF // Конец проверки активного окна с монстром
 
 
 //Проверка отсутствия монстров
-compare_pixel(1005, 278, 3157031, 643,257)
+ //compare_pixel(1005, 278, 3157031, 546, 273)
+ //WAIT(3)
+//Проверяем загрузился ли портал	
+ //compare_pixel(805, 252, 5478849, 593, 416)
+ //WAIT(3)
+//Проверяем хотим ли мы телепортироваться в Колыбель
+ //compare_pixel(798, 421, 529190, 616, 414)
+ //WAIT(3)
+ 
+ 
+//Переход в Мир Львов: Посад
+compare_pixel(865, 301, 3551783, 296, 549)
+
 END_IF
 
 
-//-------Мир Орлов - Аристократический квартал----
-$c16_color = PXL(573,163) //цвет, который ищем
-$s16_color = 10793140 // цвет, который должен быть
-LOGWRITE("Нет, я не в пустом аристократическом квартале: "$c16_color)
-$c17_color = PXL(691,166) //цвет, который ищем
-$s17_color = 10793140 // цвет, который должен быть
-IF(($c16_color = $s16_color) & ($c17_color = $s17_color))
-LOGWRITE("Мир Орлов: Аристократический квартал")
+//-------Мир Львов - Посад----
+//Проверка соответствия названия локации
+getscreen
+IF_PICTURE_IN (467, 201, 545, 214, "images/lion_posad.bmp")
+LOGWRITE("Мир Львов: Посад")
 
+//Проверка нахождения в Посаде 
+IF_PICTURE_IN (264, 262, 339, 322, "images/posad_active.bmp")
+LOGWRITE("Нахожусь в Мир Львов: Посад")
 //Выбор монстра для атаки
-compare_nopixel(1039, 278, 5657674, 1039, 278)
+compare_nopixel(865, 301, 3551783, 865, 301)
+END_IF
 
 //Проверка соответствия монстру
-$a=0
-$mob=0
-WAIT(3)
+
+$a=1
+$mob=1
+
 
 // Окно с монстром (любым монстром)
 getscreen
-IF_PICTURE_IN (250, 173, 1046, 605, "images/vboyu.bmp")
+IF_PICTURE_IN (94, 214, 896, 652, "images/vboyu.bmp")
 	LOGWRITE("Все верно, вы можете напасть на монстра")
 	$mob=1
-END_IF
+END_IF 
 
-// 1 Неуклюжий Йотун
+// 1 Паук-косеножка
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "images/nyotyn.bmp")
-	LOGWRITE("Все верно, это Неуклюжий Йотун")
+IF_PICTURE_IN (122, 255, 357, 588, "images/paukkosenozka.bmp")
+	LOGWRITE("Все верно, это Паук-Косеножка")
 	$a=1  
 END_IF
 
-// 2 Саблезубая рысь
+// 2 Степная гиена
 getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "images/sabllynx.bmp")
-	LOGWRITE("Все верно, это Саблезубая рысь")
-	$a=1
+IF_PICTURE_IN (122, 255, 357, 588, "images/stephiena.bmp")
+	LOGWRITE("Все верно, это Степная гиена")
+	$a=1  
 END_IF
 
-// 3 Грубый Йотун
-getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "images/rudeyotyn.bmp")
-	LOGWRITE("Все верно, это Грубый Йотун")
-	$a=1
-END_IF
-
-// 4 Рысь-альбинос
-getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "images/albinoslynx.bmp")
-	$a=0 
-END_IF
-
-// 5 Злобный Йотун
-getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "images/evilyotyn.bmp")
-	LOGWRITE("Все верно, это Злобный Йотун")
-	LOGWRITE("собственной персоной")
-	$a=1
-END_IF
-
-// 6 Лютая рысь
-getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "images/lytlynx.bmp")
-	LOGWRITE("Все верно, это Лютая рысь")
-	$a=0
-END_IF
-
-
-// 7 Беспощадный Йотун
-getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "images/besposhadyoutyn.bmp")
-	LOGWRITE("Все верно, это Беспощадный Йотун")
-	$a=0
-END_IF
-
-
-//8 Корнетыква
-getscreen
-IF_PICTURE_IN (277, 325, 502, 458, "images/tikva.bmp")
-	LOGWRITE("Все верно, это Корнетыква")
-	$a=0
-END_IF
 
 //Проверка открыто ли окно нападения на монстра
 IF($mob=1)
 // Switch конструкция для изгнания и атаки монстров
 WAIT(3)  //таймаут
 IF($a = 1)
-LOGWRITE("Число нападения: "$a)
-//Напасть 
-	LCLICK(562,573)  // 2368767
-ELSE
-LOGWRITE("Число нападения: "$a)
-//Изгнать 
-	LCLICK(712,576)  // 11987430
+	LOGWRITE("Число нападения: "$a)
+	//Напасть
+	 
+IF_PICTURE_IN (403, 601, 478, 627, "images/attack_on_mob.bmp")
+  LOGWRITE("Напасть")
+  WAIT(2)
+ 	LCLICK($_return1, $_return2) 
+END_IF
+
+	ELSE
+	LOGWRITE("Число нападения: "$a)
+	//Изгнать 
+	
+IF_PICTURE_IN (515, 600, 586, 633, "images/izgn.bmp")
+  WAIT(2)
+  LOGWRITE("Изгнать")
+	LCLICK($_return1, $_return2)
+END_IF
+
 END_IF //Конец Switch конструкции для атаки и изгнания монстров
 END_IF // Конец проверки активного окна с монстром
 
-//Проверка отсутствия монстров 
-compare_pixel(1005, 278, 3157031, 809, 322)
-WAIT(3)
-//Проверяем загрузился ли портал
-compare_pixel(937, 218, 3240873, 583, 426)
-WAIT(3)
-//Проверяем хотим ли мы телепортироваться в Колыбель
-compare_pixel(589, 349, 2444933, 591, 413)
-WAIT(3)
-END_IF
+//Проверка отсутствия монстров и переход в Цитадель 
+compare_pixel(865, 301, 3551783, 501, 306)
+
+END_IF //Конец проверки локации "Мир Львов: Посад"
 
 
 //-----------------------Колыбель---------------
@@ -547,24 +492,22 @@ IF(($c17_color = $s17_color) & ($c19_color = $s19_color)) // Блок IF1
 	//Проверка отсутствия монстров 
 	compare_pixel(1005, 278, 3157031, 518, 293)
 	WAIT(3)
-	//Проверяем загрузился ли портал
-	compare_pixel(805, 252, 5478849, 660, 287 )
+	//Проверяем загрузился ли портал	
+	compare_pixel(805, 252, 5478849, 729, 467)
 	WAIT(3)
-	//Проверяем хотим ли мы телепортироваться в Мир Орлов
-	compare_pixel(602, 352, 2115457, 587,413)
+	//Проверяем хотим ли мы телепортироваться в Мир Львов
+	compare_pixel(727, 350, 2050702, 616, 414)
 	WAIT(3)
 END_IF Конец блока "if2"
 
 
-//--------Мир Пламени - Побережье моря руин-----
-$c21_color = PXL(713,166) //цвет, который ищем
-$s21_color = 10793140 // цвет, который должен быть
-LOGWRITE("Нет, я не на пустом побрежье моря руин: "$c21_color)
-IF($c21_color = $s21_color)
-LOGWRITE("Мир Пламени: Побережье моря руин")
+//--------Мир Пламени - Скалистое ущелье-----
+//Мир Пламени - Скалистое ущелье
+IF_PICTURE_IN (440, 199, 561, 217, "images/rocky_gorge.bmp")
+LOGWRITE("Мир Пламени: Скалистое ущелье")
 
 //Выбор монстра для атаки
-compare_nopixel(1039, 278, 5657674, 1039, 278)
+compare_nopixel(865, 301, 3551783, 865, 301)
 
 //Проверка соответствия монстру
 $a=1
@@ -574,38 +517,39 @@ WAIT(3)
 
 // Окно с монстром (любым монстром)
 getscreen
-IF_PICTURE_IN (250, 169, 1056, 634, "images/vboyu.bmp")
+IF_PICTURE_IN (94, 214, 896, 652, "images/vboyu.bmp")
 	LOGWRITE("Все верно, вы можете напасть на монстра")
 	$mob=1
-END_IF
+END_IF 
+
 
 // 1 Полос
 getscreen
-IF_PICTURE_IN (279, 218, 504, 540, "images/poloz.bmp")
+IF_PICTURE_IN (122, 255, 357, 588, "images/poloz.bmp")
 	LOGWRITE("Все верно, это Полос 8-го уровня")
 	$a=1  
 END_IF
 
 // 2 Поющий паук
-IF_PICTURE_IN (279, 218, 504, 540, "images/spidersinger.bmp")
+IF_PICTURE_IN (122, 255, 357, 588, "images/spidersinger.bmp")
 	LOGWRITE("Все верно, это Поющий паук")
 	$a=1
 END_IF
 
 // 3 Скиталец
-IF_PICTURE_IN (279, 218, 504, 540, "images/skellet.bmp")
+IF_PICTURE_IN (122, 255, 357, 588, "images/skellet.bmp")
 	LOGWRITE("Все верно, это Скиталец")
 	$a=1
 END_IF
 
 // 4 Центурион
-IF_PICTURE_IN (279, 218, 504, 540, "images/centurion.bmp")
+IF_PICTURE_IN (122, 255, 357, 588, "images/centurion.bmp")
 	LOGWRITE("Все верно, это Центурион")
 	$a=1
 END_IF
 
 // 5 Ловец кошмаров
-IF_PICTURE_IN (279, 218, 504, 540, "images/catcher.bmp")
+IF_PICTURE_IN (122, 255, 357, 588, "images/catcher.bmp")
 	LOGWRITE("Все верно, это Ловец кошмаров")
 	$a=0
 END_IF
@@ -616,19 +560,31 @@ IF($mob=1)
 // Switch конструкция для изгнания и атаки монстров
 WAIT(3)  //таймаут
 IF($a = 1)
-LOGWRITE("Число нападения: "$a)
-//Напасть 
-LCLICK(603,570)  // 1645012
-ELSE
-LOGWRITE("Число нападения: "$a)
-//Изгнать 
-LCLICK(727,573)  // 6571776
+	LOGWRITE("Число нападения: "$a)
+	//Напасть
+	 
+IF_PICTURE_IN (403, 601, 478, 627, "images/attack_on_mob.bmp")
+  LOGWRITE("Напасть")
+  WAIT(2)
+ 	LCLICK($_return1, $_return2) 
+END_IF
+
+	ELSE
+	LOGWRITE("Число нападения: "$a)
+	//Изгнать 
+	
+IF_PICTURE_IN (515, 600, 586, 633, "images/izgn.bmp")
+  WAIT(2)
+  LOGWRITE("Изгнать")
+	LCLICK($_return1, $_return2)
+END_IF
+
 END_IF //Конец Switch конструкции для атаки и изгнания монстров
 END_IF // Конец проверки активного окна с монстром
 
-//Проверка отсутствия монстров 
-compare_pixel(1095, 366, 5393987, 596, 450) //Орлиное гнездо
-WAIT(3)
+//Проверка отсутствия монстров и переход в Львиную гриву
+compare_pixel(865, 301, 3551783, 615, 356)
+
 //Проверяем загрузился ли портал
 //compare_pixel(844, 357, 6136010, 751, 396)
 //WAIT(3)
@@ -640,16 +596,13 @@ END_IF
 
 
 
-//-----------------Мир Пламени - Орлиное гнездо----
-//Мир Пламени - Орлиное гнездо
-$c18_color = PXL(614,164) //цвет, который ищем
-$s18_color = 10793121 // цвет, который должен быть
-LOGWRITE("Нет, я не в пустом орлином гнезде: "$c18_color)
-IF($c18_color = $s18_color)
-LOGWRITE("Мир Пламени: Орлиное гнездо")
+//-----------------Мир Пламени - Львиная грива----
+//Мир Пламени - Львиная грива
+IF_PICTURE_IN (442, 203, 563, 218, "images/lion_mane.bmp")
+LOGWRITE("Мир Пламени: Львиная грива")
 
 //Выбор монстра для атаки
-compare_nopixel(1039, 278, 5657674, 1039, 278)
+compare_nopixel(865, 301, 3551783, 865, 301)
 
 //Проверка соответствия монстру
 $a=1
@@ -659,39 +612,39 @@ WAIT(3)
 
 // Окно с монстром (любым монстром)
 getscreen
-IF_PICTURE_IN (250, 169, 1056, 634, "images/vboyu.bmp")
+IF_PICTURE_IN (94, 214, 896, 652, "images/vboyu.bmp")
 	LOGWRITE("Все верно, вы можете напасть на монстра")
 	$mob=1
-END_IF
+END_IF 
 
 
 // 1 Полос
 getscreen
-IF_PICTURE_IN (279, 218, 504, 540, "images/poloz.bmp")
+IF_PICTURE_IN (122, 255, 357, 588, "images/poloz.bmp")
 	LOGWRITE("Все верно, это Полос 8-го уровня")
 	$a=1  
 END_IF
 
 // 2 Поющий паук
-IF_PICTURE_IN (279, 218, 504, 540, "images/spidersinger.bmp")
+IF_PICTURE_IN (122, 255, 357, 588, "images/spidersinger.bmp")
 	LOGWRITE("Все верно, это Поющий паук")
 	$a=1
 END_IF
 
 // 3 Скиталец
-IF_PICTURE_IN (279, 218, 504, 540, "images/skellet.bmp")
+IF_PICTURE_IN (122, 255, 357, 588, "images/skellet.bmp")
 	LOGWRITE("Все верно, это Скиталец")
 	$a=1
 END_IF
 
 // 4 Центурион
-IF_PICTURE_IN (279, 218, 504, 540, "images/centurion.bmp")
+IF_PICTURE_IN (122, 255, 357, 588, "images/centurion.bmp")
 	LOGWRITE("Все верно, это Центурион")
 	$a=1
 END_IF
 
 // 5 Ловец кошмаров
-IF_PICTURE_IN (279, 218, 504, 540, "images/catcher.bmp")
+IF_PICTURE_IN (122, 255, 357, 588, "images/catcher.bmp")
 	LOGWRITE("Все верно, это Ловец кошмаров")
 	$a=0
 END_IF
@@ -702,18 +655,32 @@ IF($mob=1)
 // Switch конструкция для изгнания и атаки монстров
 WAIT(3)  //таймаут
 IF($a = 1)
-LOGWRITE("Число нападения: "$a)
-//Напасть 
-LCLICK(603,570)  // 1645012
-ELSE
-LOGWRITE("Число нападения: "$a)
-//Изгнать 
-	LCLICK(809,691)  // 3219968
+	LOGWRITE("Число нападения: "$a)
+	//Напасть
+	 
+IF_PICTURE_IN (403, 601, 478, 627, "images/attack_on_mob.bmp")
+  LOGWRITE("Напасть")
+  WAIT(2)
+ 	LCLICK($_return1, $_return2) 
+END_IF
+
+	ELSE
+	LOGWRITE("Число нападения: "$a)
+	//Изгнать 
+	
+IF_PICTURE_IN (515, 600, 586, 633, "images/izgn.bmp")
+  WAIT(2)
+  LOGWRITE("Изгнать")
+	LCLICK($_return1, $_return2)
+END_IF
+
 END_IF //Конец Switch конструкции для атаки и изгнания монстров
 END_IF // Конец проверки активного окна с монстром
 
-//Проверка отсутствия монстров - К порталам 
-compare_pixel(1086, 354, 2696738, 773,539)
+//Проверка отсутствия монстров и переход к порталам 
+compare_pixel(865, 301, 3551783, 514, 559)
+
+
 END_IF
 
 
@@ -721,6 +688,7 @@ END_IF
 // Выбор сложности
 getscreen
 IF_PICTURE_IN (516,173,1034,290, "images/easy_mode.bmp")
+LOGWRITE("Выбираем сложность")
 LCLICK($_return1,$_return2)
 //ELSE
 //LOGWRITE("Несоответствие")
@@ -738,6 +706,7 @@ END_IF // Конец блока выбора уровня боя в убежище
 
 //Кнопка "В бой"
 		IF_PICTURE_IN (913,475,1065,542, "images/in_fight.bmp")
+		LOGWRITE("В бой")
 		LCLICK($_return1,$_return2)
 		WAIT(2)
 		END_IF

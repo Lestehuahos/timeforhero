@@ -1,0 +1,9 @@
+//-----------Мир Орлов - Ремесленный квартал-------
+$c16_color = PXL(446,155) //oaao, eioi?ue euai 
+$s16_color = 9740195 // oaao, eioi?ue aie?ai auou 
+IF($c16_color = $s16_color) 
+LOGWRITE("Ie? I?eia: ?aianeaiiue eaa?oae") 
+ELSE 
+LOGWRITE($c16_color) 
+END_IF
+
